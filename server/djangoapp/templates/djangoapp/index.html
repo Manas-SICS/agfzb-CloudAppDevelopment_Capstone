@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1></br>Our dealerships</h3>
+<div class="container">
+    <table class="table" id="table" data-filter-control="true">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Dealer Name</th>
+                <th scope="col">City</th>
+                <th scope="col">Address</th>
+                <th scope="col">Zip</th>
+                <th data-field="state" data-filter-control="select">State</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dealer_obj in dealerships %}
+            <tr>
+                <td>{{dealer_obj.id}}</td>
+                <td>{{dealer_obj.full_name}}</td>
+                <td>{{dealer_obj.city}}</td>
+                <td>{{dealer_obj.address}}</td>
+                <td>{{dealer_obj.zip}}</td>
+                <td>{{dealer_obj.st}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

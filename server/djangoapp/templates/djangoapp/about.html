@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Welcome to Best Cars dealership, home to the best cars in North America. We sell domestic and imported cars at reasonable prices.</h1>
+<h1 class="skeleton-heading">About Us</h1>
+<div class="p-4 justify-content-center">
+    <p>
+        <strong>Unveiling Best Cars:</strong><br/> A Legacy of Excellence, Loyal Service, and Unmatched Automotive Experience.
+    </p>
+    </br>
+    <p>
+        Founded in 2003, <strong>Best Cars dealership</strong> transitioned from trade to retail, evolving into a multi-generational family business with over 30 staff members. Our <strong>unwavering commitment</strong> to exceptional customer service has fostered a loyal customer base, with more than half returning for our services. We take pride in our '<strong>Highly rated</strong>' status on Auto Trader and '<strong>Top rated</strong>' recognition on Car Gurus.<br>
+        <br>
+        Our extensive inventory of <strong>400 cars</strong> encompasses a diverse array of styles, complemented by our comprehensive facility featuring a workshop, valet bay, and '<strong>smart</strong>' repair center. The collective expertise of our staff, amounting to over <strong>130 years</strong> in the motor trade, ensures valuable insights for our customers. Many team members have been with us for years, ensuring a <em>warm and familiar atmosphere</em> during each visit.<br>
+        <br>
+        <strong>Best Cars</strong> gained prominence when featured in the acclaimed racing movie "<em>Rush</em>" in 2009, highlighting the allure of our vehicles. With prices spanning from <strong>$3,000</strong> to <strong>$150,000</strong>, our wide-ranging selection accommodates various budgets. In need of financing? Our proficiency extends to all credit ratings, with partnerships involving major companies and brokers.<br>
+        <br>
+        Concerned about warranties? <strong>Rest assured</strong>, most of our stock comes with up to <strong>4 years of Trading Standards Approved coverage</strong>, backed by repair centers nationwide. At <strong>Best Cars</strong>, we're not solely in the business of selling cars; we're dedicated to delivering an <em>unparalleled customer experience</em>.
+    </p>    
+    </br>
+    <p><a style="color:black; font-weight: bold;" href="{% url 'djangoapp:contact' %}">Get in touch with us today!</a></p>
+</div>    
 {% endblock %}

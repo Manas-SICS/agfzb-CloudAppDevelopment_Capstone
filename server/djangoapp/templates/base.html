@@ -17,7 +17,7 @@
     <!-- navbar -->
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Dealership Reviews</a>
+            <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Best Cars</a>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul style="justify-content:left;" class="navbar-nav">
                     <li class="navbar-brand">
@@ -57,5 +57,12 @@
     </main>
 
 </body>
+
+<script>
+    $(function() {
+        $('#table').bootstrapTable()
+    })
+</script>
+
 
 </html>
