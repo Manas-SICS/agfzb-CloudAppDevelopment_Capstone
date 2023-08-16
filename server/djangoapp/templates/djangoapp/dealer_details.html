@@ -1,18 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dealership Review</title>
-    {% load static %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-
-    <body>
-
-    <!--Add a nav bar here -->
-
-    <!-- Add reviews as cards -->
-
-    </body>
-
-</html>
+{% extends 'base.html' %}
+{% block content %}
+    {% if reviews %}
+        <div class="mt-4">
+            <h2>Reviews</h2>
+        </div>
+        {% if user.is_authenticated %}
+            <div class="mt-2">
+                <a class="btn btn-primary" href="{% url 'djangoapp:add_review' dealer_id %}"><b>Write a Car Review</b></a>
+            </div>
+        {% endif %}
+        <div class="card-columns mt-4">
+            {% for review in reviews %}
+                <div class="card h-100">
+                    <div class="card-body">
+                        <img src="{{ MEDIA_URL }}/emoji/{{ review.sentiment }}.png" class="float-left mr-3" style="height: 40px; width: 40px;">
+                        {% if review.car_make %}
+                            <h5 class="card-title">{{ review.car_make }}, {{ review.car_model }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ review.car_year }}</h6>
+                        {% else %}
+                            <h5 class="card-title">Review</h5>
+                        {% endif %}
+                        <p class="card-text">{{ review.review }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="mt-4">
+            <h2>Reviews</h2>
+        </div>
+        <p class="mt-2">There are no reviews for this dealership.</p>
+        {% if user.is_authenticated %}
+            <div class="mt-2">
+                <a class="btn btn-primary" href="{% url 'djangoapp:add_review' dealer_id %}"><b>Write a Car Review</b></a>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
