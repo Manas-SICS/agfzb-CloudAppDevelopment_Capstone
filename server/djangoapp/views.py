@@ -16,15 +16,21 @@ logger = logging.getLogger(__name__)
 
 
 def get_dealerships(request):
-    if request.method == "GET":
-        context = {}
-        url = "https://manassics-3000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/dealership"
-        # Get dealers from the Cloudant DB
-        dealerships = get_dealers_from_cf(url)
-
+    context = {}
+    
+    url = "https://manassics-3000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/dealership"
+    # Get dealers from the Cloudant DB
+    dealerships = get_dealers_from_cf(url) 
+    print(dealerships) 
+    if dealerships is not None:
         context["dealerships"] = dealerships
-        
+    
         return render(request, 'djangoapp/index.html', context)
+
+    else:
+        context["error_message"] = "Failed to fetch dealerships data."
+    
+
 
 
 
@@ -110,7 +116,7 @@ def registration_request(request):
 def get_dealer_details(request, dealer_id):
    context = {}
    if request.method == "GET":
-       url = 'https://manassics-5000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/review'
+       url = f'https://manassics-5000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/review?id={dealer_id}'
        reviews = get_dealer_reviews_from_cf(url, dealer_id = dealer_id)
       
        context = {
@@ -128,16 +134,17 @@ def add_review(request, dealer_id):
     if request.user.is_authenticated:
         # GET request renders the page with the form for filling out a review
         if request.method == "GET":
-            url = f"https://manassics-5000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/review?id={dealer_id}"
+            url = f"https://manassics-5000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/review?id={dealer_id}"
             # Get dealer details from the API
-            dealer = get_dealer_by_id(url, dealer_id=dealer_id)
+            
 
             context = {
                 "cars": CarModel.objects.all(),
-                "dealer_id": dealer_id,
+                "dealer": get_dealer_by_id(url, dealer_id=dealer_id),
+                "dealer_id": dealer_id
             }
 
-        return render(request, 'djangoapp/add_review.html', context)
+            return render(request, 'djangoapp/add_review.html', context)
 
 
        # POST request posts the content in the review submission form to the Cloudant DB using the post_review Cloud Function
@@ -155,14 +162,13 @@ def add_review(request, dealer_id):
             review["car_model"] = car.name
             review["car_year"] = car.year
 
+            if form.get("purchasecheck"):
+                review["purchase_date"] = datetime.strptime(form.get("purchasedate"), "%m/%d/%Y").isoformat()
+            else: 
+                review["purchase_date"] = None
 
-            # Get the selected dealership name from the form
-            selected_dealer_name = form["dealership"]
-
-
-            url = f"https://manassics-5000.theiadocker-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/review"
+            url = f"https://manassics-5000.theiadocker-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/api/review"
             json_payload = {"review": review}
-
 
             # Performing a POST request with the review
             result = post_request(url, json_payload, id=dealer_id)
